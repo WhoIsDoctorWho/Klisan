@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {{> head }} 
+    </head>
+    <body class="background">
+        {{> header }}
+        <div class="container">
+            <br>
+            <h1 class="text-center pageName">About Klisan</h1>
+            <div class="row text-center">
+            <h2 >Purpose of the site</h2>
+            <p> 
+                The idea to create this site came on a cozy autumn evening. I cooked cocoa, took a blanket and began to look for a series for viewing.
+                Unfortunately, the popular trackers of serials had many shortcomings,
+                from the copied description of the series and ending with a lot of obtrusive advertising. I wanted to create something of my own.
+                What will be really <strong>convenient and practical</strong>. On the site you can not just choose a good series,
+                but also read the <strong>author's materials</strong> about each of the series available on the site. <strong>So, enjoy)</strong>
+            </p>
+            <h2>Some info about author</h2>
+            <p>
+                    This part of the text is for the most fearless. Here I will tell about myself.<br>
+                    My name is <b>Dima</b>. Age 18+;).
+                    I study at the <a href="http://kpi.ua/">KPI named after Igor Sikorsky</a> 
+                    at the Faculty of Applied Mathematics in the 2 nd year (2018).
+                    I am engaged in sports, and especially sports programming (thanks, <i>Ruslan Anatolievich</i>, for deadlines!).
+                    I'm interested in serials since childhood. Perhaps this is all the information I leave here.<br><br> 
+                    
+                    In more detail, with personal references:<br>
+                    Telegram:  @timchnk <br>
+                    Instagram: @timchnk
+            </p>
+            </div>
+        </div>            
+
+    {{> footer }}
+    
+
+    </body>
+</html>

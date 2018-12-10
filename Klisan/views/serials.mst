@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {{> head }} 
+    </head>
+    <body onload="serials()" onscroll="display()" class="background">
+        {{> header }} 
+
+    <div class="container">
+	<br>
+	<h1 class= "text-center pageName">Serials</h1>
+	<div class="row text-center mb-5">
+        <div class="col-12 mb-5" >
+            {{#userRights}}
+            <div class="row text-center" id="serials">
+	
+            Loading...
+
+        </div>   
+        <div  class="fixed-bottom" id="bottom">                                 
+            {{#adminRights}}
+            <div class="text-center">
+            <form>
+                <button type="submit" formaction="/addSerial" formmethod="GET" class="btn btn-success btn-lg">Add</button>                
+            </form>
+            </div>
+            {{/adminRights}}
+            {{> pagination }}               
+        </div>
+            {{/userRights}}
+        </div>
+    </div>    
+    </div> 
+    {{> auth }}
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://fastcdn.org/Readmore.js/2.1.0/readmore.min.js"></script>
+
+    <script>
+        $('article').readmore({
+            collapsedHeight: 100,
+            speed: 350,
+            moreLink: '<a href="#">More</a>',
+            lessLink: '<a href="#">Less</a>',            
+        });
+     </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>   
+
+    <script src="../javascripts/pagination.js"></script>
+
+
+    {{> footer }}
+    </body>
+</html>

@@ -1,0 +1,11 @@
+{{^userRights}}
+<div class="container-fluid">
+    <div class="auth text-center">
+        <h1>Authentication required to view content.</h1>
+        <form class="form-inline">                    
+            <button class="btn btn-outline-info btn-lg" type="submit" formaction="/auth/login" formmethod="GET">Log in</button>
+            <button class="btn btn-outline-info btn-lg" type="sumbit" formaction="/auth/register" formmethod="GET">Register</button>    
+        </form>
+    </div>
+</div>
+{{/userRights}} 

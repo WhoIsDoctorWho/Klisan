@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>    
+    {{> head }}    
+</head>
+
+<body class="background"> 
+    {{> header }}    
+    <div class="container">        
+        <br>
+        <h1 class="text-center display-1">Klisan's API</h1>        
+        <h2 class="display-4">Available resources</h2>
+        <div class="developer">
+        <p>With Klisan's API you can fast and easy manage our resources. There're some links for you:</p>
+        <ul>
+            <li>
+                <ul> <strong>Users</strong>
+                    <li>GET /users - get list of users</li>
+                    <li>GET /users/:id - get user by id</li>
+                    <li>PUT /users/:id - patch some user by id*</li>
+                    <li>PATCH /users/:id - change avatar of some user by id****</li>
+                    <li>DELETE /users/:id - delete some user by id</li>
+                </ul>
+            </li>
+            <br>
+            <li>
+                <ul> <strong>Serials</strong>
+                    <li>GET /serials - get list of serials</li>
+                    <li>GET /serials/:id - get serial by id</li>
+                    <li>POST /serials - create new serial**</li>
+                    <li>PUT /serials/:id - patch some serial by id**</li>
+                    <li>PATCH /serial/:id - change avatar of some serial by id****</li>
+                    <li>DELETE /serials/:id - delete some serial by id</li>
+                </ul>
+            </li>
+            <br>
+            <li>
+                <ul> <strong>Serieses</strong>
+                    <li>GET /serieses - get list of serieses</li>
+                    <li>GET /serials/:sId/serieses - get list of serieses from serial with sId</li>
+                    <li>GET /serieses/:id - get series by id</li>
+                    <li>POST /serials/:sId/serieses - create new series***</li>
+                    <li>PUT /serieses/:id - patch some series by id***</li>
+                    <li>PATCH /serieses/:id - change avatar of some series by id****</li>
+                    <li>DELETE /serieses/:id - delete some series by id</li>
+                </ul>
+            </li>
+        </ul>
+        </div>
+        <br>
+        <h2 class="display-4">Authorize methods</h2>
+        <p class=developer>
+        If you want use these requests, you should be authorized (log in). 
+        Even after closing the site your login information will be stored in cookies, 
+        so you will can continue use this withouth active session.
+        </p>
+        <br>
+        <h2 class="display-4">Types of errors</h2>
+        <p class=developer>
+        All errors returns objects like {status: any, error: someError}<br>        
+        </p>
+        <br><br>
+        <p>
+        Fields of objects: <br>
+        * - user: login, fullname, role, isDisabled <br>
+        ** - serial: title, seasonsNum, mark, description, avaUrl <br>
+        *** - series: title, seasonNumber, seriesNumber, mark, description, videoLink, avaUrl <br>
+        **** - use field <b>avaUrl</b> for changing avatar of serial<br>
+        Note: updating entity by using PUT can't change avatar. Use patch instead.
+        <br>
+        These fields required when creating, but when editing you can select only necessary fields 
+        </p>
+	</div>
+    {{> footer }}
+</body>
+</html>

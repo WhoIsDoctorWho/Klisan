@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {{> head }} 
+    </head>
+    <body class="background">
+        {{> header }}               
+                
+        <p style="font-size:290%; margin-left:650px">Nof found, try again</p>
+    </body>
+</html>

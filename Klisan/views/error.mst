@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>    
+    {{> head }}    
+</head>
+
+<body class="background"> 
+    {{> header }}    
+    <div class="text-center mt-5">
+        <img src="/images/angryCat.jpg" width="256" alt="angry cat">
+        <h1 style="font-size: 72px">{{code}}</h1>
+        <h2>{{error}}</h2>
+        <h3>Don't look for non-existent</h3>
+	</div>
+    {{> footer }}
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>    
+    {{> head }}    
+</head>
+
+<body class="background"> 
+    {{> header }}
+
+    {{#adminRights}}
+    <div class="container center-block creating ">  
+    <form action="/addSeries" method="POST" enctype="multipart/form-data" role="form">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input name="title" type="text" class="form-control" id="title" placeholder="Title of series" required>            
+        </div>
+        <div class="form-group">
+            <label for="nseason">Number of season:</label>
+            <input name="seasonNumber" type="number" class="form-control" id="nseason" placeholder="Number of season" required>            
+        </div>
+        <div class="form-group">
+            <label for="nseries">Number of series:</label>
+            <input name="seriesNumber" type="number" class="form-control" id="nseries" placeholder="Number of series" required>            
+        </div>
+        <div class="form-group">
+            <label for="mark">Mark:</label>
+            <input name="mark" type="number" class="form-control" id="mark" placeholder="Mark" required>            
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea rows="10" cols = "30" name="description" placeholder="Description" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="ava">Avatar:</label>
+            <input type="file" name="ava" class="form-control-file" id="ava" required>
+        </div>
+        <div class="form-group">
+            <label for="video">Link to the video:</label>
+            <input name="videoLink" type="text" class="form-control" id="video" placeholder="Link to the video" required>            
+        </div>
+        <input type="hidden" name="sId" value="{{sId}}">
+        <button type="submit" class="btn btn-info btn-lg btn-block">Add</button>
+    </form>
+    </div>
+    {{/adminRights}}
+    {{> authAdm }}
+
+    {{> footer }}
+</body>
+</html>
+

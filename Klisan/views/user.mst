@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    {{> head }} 
+</head>
+
+<body class="background">    
+    {{> header }}
+    {{#userRights}}      
+    <div class="container text-center user">
+        <br>
+        {{#user}}
+        <h1 class="pageName">{{login}}</h1>
+        <div class="row">     
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <img src="{{avaUrl}}" width="200" height="175" class="mx-auto rounded">            
+                    <div class="col-12">
+                        {{fullname}} {{#role}}(user){{/role}}{{^role}}(admin){{/role}}
+                    </div>            
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <form class="form-inline">                    
+                    <button class="btn btn-outline-info btn-lg" type="submit" 
+                        formaction="//login" formmethod="GET">Disable</button>
+                    <button class="btn btn-outline-info btn-lg" type="sumbit" 
+                        formaction="/promote" formmethod="GET">Promote to admin</button>    
+                    <input type="hidden" name="id" value="{{id}}">
+                </form>
+            </div>   
+        </div> 
+        {{/user}}    
+    </div> 
+    <div class = "container-fluid text-center">
+        <h1 class="user">Watch list</h1> 
+        <div class="row text-center">
+        {{#series}}
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 serieses">
+                <div class="row"><img src="{{avaUrl}}" width="320" height="280" class="mx-auto rounded">            
+                    <div class="col-12 series">
+                        <a href="/serial/{{ id }}" class="text-info photoCaption" > {{ title }} </a> 
+                    </div>
+                </div>
+            </div>        
+        {{/series}}
+        </div>
+    </div>
+    {{/userRights}}
+    {{ >auth }}
+
+    {{> footer }}
+</body>
+</html>

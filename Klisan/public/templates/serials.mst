@@ -1,0 +1,15 @@
+{{#items}}
+    <a href="/serial/{{ _id }}"><img src="{{avaUrl}}" width="1000" height="500" class="mx-auto rounded"></a>            
+    <div class="col-12 series">
+        <a href="/serial/{{ _id }}" class="text-info photoCaption" > {{ title }} </a> 
+        <article>                
+            <p class="description mb-5">{{description}}</p>                    
+        </article>
+        <hr>
+    </div>
+{{/items}}    
+{{^items}}
+<div>
+    <h1 class="ml-5 pageName">NOT FOUND</h1>
+</div>
+{{/items}}
