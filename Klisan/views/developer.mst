@@ -36,14 +36,14 @@
             </li>
             <br>
             <li>
-                <ul> <strong>Serieses</strong>
-                    <li>GET /serieses - get list of serieses</li>
-                    <li>GET /serials/:sId/serieses - get list of serieses from serial with sId</li>
-                    <li>GET /serieses/:id - get series by id</li>
-                    <li>POST /serials/:sId/serieses - create new series***</li>
-                    <li>PUT /serieses/:id - patch some series by id***</li>
-                    <li>PATCH /serieses/:id - change avatar of some series by id****</li>
-                    <li>DELETE /serieses/:id - delete some series by id</li>
+                <ul> <strong>episods</strong>
+                    <li>GET /episods - get list of episods</li>
+                    <li>GET /serials/:sId/episods - get list of episods from serial with sId</li>
+                    <li>GET /episods/:id - get episod by id</li>
+                    <li>POST /serials/:sId/episods - create new episod***</li>
+                    <li>PUT /episods/:id - patch some episod by id***</li>
+                    <li>PATCH /episods/:id - change avatar of some episod by id****</li>
+                    <li>DELETE /episods/:id - delete some episod by id</li>
                 </ul>
             </li>
         </ul>
@@ -65,7 +65,7 @@
         Fields of objects: <br>
         * - user: login, fullname, role, isDisabled <br>
         ** - serial: title, seasonsNum, mark, description, avaUrl <br>
-        *** - series: title, seasonNumber, seriesNumber, mark, description, videoLink, avaUrl <br>
+        *** - episod: title, seasonNumber, episodNumber, mark, description, videoLink, avaUrl <br>
         **** - use field <b>avaUrl</b> for changing avatar of serial<br>
         Note: updating entity by using PUT can't change avatar. Use patch instead.
         <br>

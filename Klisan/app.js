@@ -16,7 +16,7 @@ const session = require('express-session');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const seriesRouter = require('./routes/series');
+const episodRouter = require('./routes/episod');
 const serialsRouter = require('./routes/serial');
 const authRouter = require('./routes/auth');
 const devRouter = require('./routes/developer');
@@ -113,7 +113,7 @@ app.use("/developer/v1", devRouter);
 app.use("/api/v1", apiRouter);
 app.use(indexRouter);
 app.use(usersRouter);
-app.use(seriesRouter);
+app.use(episodRouter);
 app.use(serialsRouter);
 
 // catch 404 and forward to error handler

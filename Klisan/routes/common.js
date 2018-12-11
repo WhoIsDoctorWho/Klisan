@@ -1,7 +1,7 @@
 const config = require('../config');
 const Auth = require("../models/auth.js");
 
-const nShow = 8; // for pagination
+//const nShow = 8; // for pagination
 
 const cloudinary = require('cloudinary');
 cloudinary.config({
@@ -21,12 +21,12 @@ module.exports = {
         }
         return found;
     },
-    pagination: (objects, pageNumber) => {
+    pagination: (objects, pageNumber, nShow) => {
         if(isNaN(pageNumber)) 
             pageNumber = 1;        
         return objects.slice(nShow*pageNumber-nShow, nShow*pageNumber);
     },
-    getMaxPage: (objects) => {        
+    getMaxPage: (objects, nShow) => {        
         const nObj = objects.length;
         return nObj ? Math.ceil(nObj/nShow) : 0;  
     },
@@ -53,8 +53,8 @@ module.exports = {
     checkSerialBody: (body) => { // if body is cool, return true
         return body.title && body.description && !isNaN(body.mark) && !isNaN(body.seasonsNum);
     },
-    checkSeriesBody: (body) => { // if body is cool, return true
-        return body.title && body.description && body.videoLink && !isNaN(body.mark) && !isNaN(body.seasonNumber) && !isNaN(body.seriesNumber);
+    checkepisodBody: (body) => { // if body is cool, return true
+        return body.title && body.description && body.videoLink && !isNaN(body.mark) && !isNaN(body.seasonNumber) && !isNaN(body.episodNumber);
     },
     cloudinary: cloudinary
 }

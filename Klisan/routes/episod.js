@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const busboy  = require('busboy-body-parser');
 
-const Series = require("../models/series.js");
+const episod = require("../models/episod.js");
 const Serial = require("../models/serial.js");
 const common = require('./common');
 const Auth = require("../models/auth.js");
@@ -16,19 +16,19 @@ router.use(bodyParser.urlencoded({extended: true}));
 
 router.use(busboy({limit: '5mb'}));
 
-router.get('/serieses', (req, res) => { 
-	res.render('serieses', {userRights: req.user});			
+router.get('/episods', (req, res) => { 
+	res.render('episods', {userRights: req.user});			
   
 });
 
-router.get('/addSeries', function (req, res) { 
+router.get('/addEpisod', function (req, res) { 
 	if(!Auth.checkAdminRights(req.user))
 		res.status(403).render('error', {code: 403, error: "Forbidden"})
 	else
-		res.render('newSeries', {sId: req.query.sId, userRights: req.user, adminRights: Auth.checkAdminRights(req.user)});	
+		res.render('newEpisod', {sId: req.query.sId, userRights: req.user, adminRights: Auth.checkAdminRights(req.user)});	
 });
 
-router.post('/addSeries', (req, res) => {
+router.post('/addEpisod', (req, res) => {
 	if(!Auth.checkAdminRights(req.user)) {
 		res.status(403).render('error', {code: 403, error: "Forbidden"});
 		return;
@@ -43,21 +43,21 @@ router.post('/addSeries', (req, res) => {
 				return;
 			}						
 			
-			const newSeries = {
+			const newEpisod = {
 				title: req.body.title,
 				seasonNumber: req.body.seasonNumber,
-				seriesNumber: req.body.seriesNumber,
+				episodNumber: req.body.episodNumber,
 				mark: req.body.mark,
 				description: req.body.description, 
-				avaUrl: result.url,	
+				avaUrl: result.secure_url,	
 				videoLink: common.parseVideoLink(req.body.videoLink),
 				serialId: req.body.sId
 			};
-			Series.create(newSeries)
-				.then(newSeries => {
-					return Promise.all([Serial.addSeries(newSeries), newSeries]);  // save id of added series to serial
+			episod.create(newEpisod)
+				.then(newEpisod => {
+					return Promise.all([Serial.addEpisod(newEpisod), newEpisod]);  // save id of added episod to serial
 				})
-				.then(result => res.redirect(`/series/${result[1].id}`))							
+				.then(result => res.redirect(`/episod/${result[1].id}`))							
 				.catch(err => {
 					console.log(err.toString());
 					res.status(404).render('error');
@@ -66,52 +66,52 @@ router.post('/addSeries', (req, res) => {
         .end(fileBuffer);
 });
 
-router.get('/deleteSeries', function (req, res) { 
+router.get('/deleteEpisod', function (req, res) { 
 	if(!Auth.checkAdminRights(req.user))
 		res.status(403).render('error', {code: 403, error: "Forbidden"})
 	else
-		Series.delete(req.query.id)
-			.then(series => Serial.removeSeries(series.serialId.toString(), series.id))		
+		episod.delete(req.query.id)
+			.then(episod => Serial.removeEpisod(episod.serialId.toString(), episod.id))		
 			.then(()  => res.redirect('/serials'))
 			.catch(() => res.status(500).render('error'), {code: 500, error: "Unable to delete"});
 });
 
-router.get('/updateSeries', function (req, res) { 
+router.get('/updateEpisod', function (req, res) { 
 	if(!Auth.checkAdminRights(req.user))
 		res.status(403).render('error', {code: 403, error: "Forbidden"})
 	else
-		Series.getById(req.query.id)
-			.then(series => 
-				res.render('updateSeries', {series: series, userRights: req.user, adminRights: Auth.checkAdminRights(req.user)}))				
+		episod.getById(req.query.id)
+			.then(episod => 
+				res.render('updateEpisod', {episod: episod, userRights: req.user, adminRights: Auth.checkAdminRights(req.user)}))				
 			.catch(() => 
 				res.status(404).render('error'), {code: 404, error: "Not found"}); 
 });
 
-router.post('/updateSeries', function (req, res) { 
+router.post('/updateEpisod', function (req, res) { 
 	if(!Auth.checkAdminRights(req.user)) {
 		res.status(403).render('error', {code: 403, error: "Forbidden"})
 		return;
 	}						
-	const updSeries = {
+	const updepisod = {
 		title: req.body.title,
 		seasonNumber: req.body.seasonNumber,
-		seriesNumber: req.body.seriesNumber,
+		episodNumber: req.body.episodNumber,
 		mark: req.body.mark,
 		description: req.body.description, 		
 		videoLink: common.parseVideoLink(req.body.videoLink),
 	};
-	Series.update(updSeries, req.body.sId)
+	episod.update(updepisod, req.body.sId)
 		.then((x) => 
-			res.redirect(`/series/${x[1]._id}`)) 
+			res.redirect(`/episod/${x[1]._id}`)) 
 		.catch(() => {			
 			res.status(500).render('error', {code: 500, error: "Unable to update"});		
 		});           
 });
 
-router.get('/series/:id', function (req, res) {
-	Series.getById(req.params.id)
-		.then(series => {			
-			res.render('series', {series: series, userRights: req.user, eId: series._id}); // eId - id of episod
+router.get('/episod/:id', function (req, res) {
+	episod.getById(req.params.id)
+		.then(episod => {			
+			res.render('episod', {episod: episod, userRights: req.user, adminRights: Auth.checkAdminRights(req.user), eId: episod._id}); // eId - id of episod
 		})
 		.catch(() => res.status(404).render('error'), {code: 404, error: "Not found"});
 });

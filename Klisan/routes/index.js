@@ -1,20 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const Series = require("../models/series.js");
+const episod = require("../models/episod.js");
 const Auth = require("../models/auth.js");
 const common = require('./common');
 
 router.get('/', function (req, res, next) {	 //@todo pretty page
-	Series.getNewSerieses()
-		.then(serieses => {
+	episod.getnewEpisods()
+		.then(episods => {
 			if("search" in req.query) {
-				serieses = common.search(req.query.search, serieses);
-				if(serieses.length == 0) { // not found						
+				episods = common.search(req.query.search, episods);
+				if(episods.length == 0) { // not found						
 					res.render('searchNF');
 					return; 
 				}
 			}			
-			res.render('serieses', {series: serieses, userRights: req.user});			
+			res.render('episods', {episod: episods, userRights: req.user});			
 		})
 		.catch (() => res.render('error'));
 });

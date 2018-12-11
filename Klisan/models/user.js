@@ -9,8 +9,7 @@ const UserSchema = new mongoose.Schema(
 		fullname: { type: String, required: true },
 		registered: { type: Date, default: Date.now },
 		role: { type: Boolean, default: true }, // false - admin, true - user
-		avaUrl: { type: String },
-		isDisabled: { type: Boolean, default: false },
+		avaUrl: { type: String },		
 		watchList: [{ type: Schema.Types.ObjectId, ref: "serial" }]
 	}
 );
@@ -39,8 +38,7 @@ module.exports = {
         
         if(body.login)      updObj.login	  = body.login;
 		if(body.fullname)   updObj.fullname   = body.fullname;
-        if(body.role)  		updObj.role 	  = body.role;
-        if(body.isDisabled) updObj.isDisabled = body.isDisabled;                                        
+        if(body.role)  		updObj.role 	  = body.role;                                                
 
         return UserModel.findOneAndUpdate({_id: id}, updObj);
 	},

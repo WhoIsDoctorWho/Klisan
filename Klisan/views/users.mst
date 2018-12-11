@@ -5,28 +5,25 @@
     {{> head }}
 </head>
 
-<body class="background"> 
+<body onload="users()" class="background"> 
 {{> header }}
 {{#adminRights}}
 <div class="container-fluid">
 	<br>
 	<h1 class="text-center pageName">Users</h1>
-	<div class="row text-center">
-	{{#users}}
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 serieses">
-            <div class="row"><img src="{{avaUrl}}" width="320" height="280" class="mx-auto rounded">            
-                <div class="col-12 series">
-                    <a href="/users/{{ id }}" class="text-info photoCaption"> {{ login }} </a> 
-                </div>
-            </div>
-        </div>        
-	{{/users}}
+	<div class="row text-center" id="users">
+        <h1>There are no users</h1>
 	</div>
 </div>
+<div class="fixed-bottom" id="bottom">    
+    {{> pagination }}
 </div>  
 {{/adminRights}}
 {{ >authAdm }}
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>   
+
+<script src="../javascripts/pagination.js"></script>
 
 {{ >footer }}
 </body>

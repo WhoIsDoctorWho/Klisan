@@ -7,9 +7,8 @@ const SerialSchema = new mongoose.Schema(
         seasonsNum:	 {type: Number},
         mark:        {type: Number },
         description: {type: String},        
-		released:    {type: Date, default: Date.now}, // todo get from admin
         avaUrl: 	 {type: String},
-        serieses:  [ {type: Schema.Types.ObjectId, ref: "serieses"} ]
+        episods:  [ {type: Schema.Types.ObjectId, ref: "episods"} ]
 	}
 );
 
@@ -20,7 +19,7 @@ module.exports = {
         return SerialModel.find();
     },
     getById: function(id) {
-        return SerialModel.findOne({_id: id}).populate('serieses');
+        return SerialModel.findOne({_id: id}).populate('episods');
     },
     getByIdApi: function(id) {
         return SerialModel.findOne({_id: id});
@@ -35,7 +34,7 @@ module.exports = {
                 seasonsNum: updSerial.seasonsNum,
                 mark: updSerial.mark,
                 description: updSerial.description,        
-        }}), SerialModel.findOne({_id: id}).populate('serieses')]);
+        }}), SerialModel.findOne({_id: id}).populate('episods')]);
     },
     patch: function(body, id) {
         const updObj = {};
@@ -53,11 +52,11 @@ module.exports = {
     delete: function(id) {
         return SerialModel.findOneAndDelete({_id: id}); 
     },
-    addSeries: function(newSeries) {
-        return SerialModel.findOneAndUpdate({_id: newSeries.serialId}, {$push: {serieses: newSeries.id}});
+    addEpisod: function(newEpisod) {
+        return SerialModel.findOneAndUpdate({_id: newEpisod.serialId}, {$push: {episods: newEpisod.id}});
     },
-    removeSeries: function(sId, id) {
-        return SerialModel.findOneAndUpdate({_id: sId}, {$pull: {serieses: id}});
+    removeEpisod: function(sId, id) {
+        return SerialModel.findOneAndUpdate({_id: sId}, {$pull: {episods: id}});
     },
     getArr: function(idArr) {
         return SerialModel.find({'_id': { $in: idArr}});

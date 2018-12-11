@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const router = express.Router();
 const Users = require('../models/user');
 const Serials = require('../models/serial');
-const Serieses = require('../models/series');
+const Episods = require('../models/episod');
 const Auth = require('../models/auth');
 const common = require('./common');
 
@@ -19,16 +19,17 @@ router.get('/me',
     API from USERS
 */
 
-router.get('/users', 
-    passport.authenticate('basic', { session: false, failureRedirect: '/api/v1/unauthorized'}),
+router.get('/users', basicAuth,    
     (req, res) => {
         Users.getAll()
             .then(users => {     
+                const nShow = 1;
                 const pageNumber = parseInt(req.query.page);
-                users = common.pagination(users, pageNumber)                			
+                const maxPage = common.getMaxPage(users, nShow);
+                users = common.pagination(users, pageNumber, nShow);
                 if(!users || users.length === 0) 
-                    return Promise.reject({status: 404, error: `No users`, page: pageNumber});
-                res.json(users);
+                    return Promise.reject({status: 404, error: `No users`, page: pageNumber, max: 1});
+                res.json({items: users, max: maxPage});
             })
             .catch(err => err.status ? res.status(err.status).json(err) 
                                      : res.status(404).json(err));
@@ -124,11 +125,12 @@ router.get('/serials', basicAuth,
                     if(serials.length === 0)  // not found						
                         return Promise.reject({status: 404, error: `No serials for "${searchStr}" request`, max: 1});                        
                 }    
+                const nShow = 2;
                 const pageNumber = parseInt(req.query.page);
-                const maxPage = common.getMaxPage(serials);
-                serials = common.pagination(serials, pageNumber)                			
+                const maxPage = common.getMaxPage(serials, nShow);
+                serials = common.pagination(serials, pageNumber, nShow);                 			
                 if(!serials || serials.length === 0) 
-                    return Promise.reject({status: 404, error: `No serials`, page: pageNumber});
+                    return Promise.reject({status: 404, error: `No serials`, page: pageNumber, max: 1});
                 res.json({items: serials, max: maxPage});
             })
             .catch(err => err.status ? res.status(err.status).json(err) 
@@ -242,11 +244,10 @@ router.delete('/serials/:id',
 );
 
 /* 
-    API from SERIESES
+    API from episods
 */
 
 function basicAuth(req, res, next) {
-    // if there is not session user, try basic
     if (!req.user) { 
         const auth = passport.authenticate('basic', { session: false, failureRedirect: '/api/v1/unauthorized'});
         return auth(req, res, next); 
@@ -254,75 +255,77 @@ function basicAuth(req, res, next) {
     next();
 }
  
-router.get('/serieses', basicAuth,
+router.get('/episods', basicAuth,
     (req, res) => {
-        Serieses.getAll()
-            .then(serieses => {                                                         
+        Episods.getAll()
+            .then(episods => {                                                         
                 const searchStr = req.query.search;
                 if(searchStr) {
-                    serieses = common.search(searchStr, serieses);
-                    if(serieses.length === 0)  // not found						
-                        return Promise.reject({status: 404, error: `No serieses for "${searchStr}" request`, max: 1});                        
+                    episods = common.search(searchStr, episods);
+                    if(episods.length === 0)  // not found						
+                        return Promise.reject({status: 404, error: `No episods for "${searchStr}" request`, max: 1});                        
                 }
+                const nShow = 8;
                 const pageNumber = parseInt(req.query.page);
-                const maxPage = common.getMaxPage(serieses);
-                serieses = common.pagination(serieses, pageNumber)                			
-                if(!serieses || serieses.length === 0)                     
-                    return Promise.reject({status: 404, error: `No serieses`, page: pageNumber, max: maxPage});                                
-                res.json({items: serieses, max: maxPage});
+                const maxPage = common.getMaxPage(episods, nShow);
+                episods = common.pagination(episods, pageNumber, nShow);                			
+                if(!episods || episods.length === 0)                     
+                    return Promise.reject({status: 404, error: `No episods`, page: pageNumber, max: maxPage});                                
+                res.json({items: episods, max: maxPage});
             })
             .catch(err => err.status ? res.status(err.status).json(err) 
                                      : res.status(404).json(err));
     }
 );
 
-router.get('/serials/:sId/serieses', basicAuth,
+router.get('/serials/:sId/episods', basicAuth,
     (req, res) => {
         Serials.getById(req.params.sId)
             .then(serial => {     
                 if(!serial)
                     return Promise.reject({status: 404, error: `No serial with id ${req.params.sId}`, max: 1});
-                let serieses = serial.serieses;
+                let episods = serial.episods;
                 const searchStr = req.query.search;
                 if(searchStr) {
-                    serieses = common.search(searchStr, serieses);
-                    if(serieses.length === 0)  // not found						
-                        return Promise.reject({status: 404, error: `No serieses for "${searchStr}" request`, max: 1});                        
+                    episods = common.search(searchStr, episods);
+                    if(episods.length === 0)  // not found						
+                        return Promise.reject({status: 404, error: `No episods for "${searchStr}" request`, max: 1});                        
                 }
+                const nShow = 8;
                 const pageNumber = parseInt(req.query.page);
-                const maxPage = common.getMaxPage(serieses);
-                serieses = common.pagination(serieses, pageNumber);              			
-                if(!serieses || serieses.length === 0) 
-                    return Promise.reject({status: 404, error: `No serieses`, page: pageNumber, max: 1});
-                res.json({items: serieses, max: maxPage});
+                const maxPage = common.getMaxPage(episods, nShow);
+                episods = common.pagination(episods, pageNumber, nShow);              			
+                if(!episods || episods.length === 0) 
+                    return Promise.reject({status: 404, error: `No episods`, page: pageNumber, max: 1});
+                res.json({items: episods, max: maxPage});
             })
             .catch(err => err.status ? res.status(err.status).json(err) 
                                      : res.status(404).json(err));
     }
 );
 
-router.get("/serieses/:id",
+router.get("/episods/:id",
     passport.authenticate('basic', { session: false, failureRedirect: '/api/v1/unauthorized'}),
     (req, res) => {
-        Serieses.getById(req.params.id)
-            .then(series => {
-                if(!series )
-                    return Promise.reject({status: 404, error: `No series with id ${req.params.id}`});
-                res.json(series);
+        Episods.getById(req.params.id)
+            .then(episod => {
+                if(!episod )
+                    return Promise.reject({status: 404, error: `No episod with id ${req.params.id}`});
+                res.json(episod);
             })
             .catch(err => err.status ? res.status(err.status).json(err) 
                                      : res.status(404).json(err));
     }
 );
 
-router.post('/serials/:sId/serieses',
+router.post('/serials/:sId/episods',
     passport.authenticate('basic', { session: false, failureRedirect: '/api/v1/unauthorized'}),
     (req, res) => {
         if(!Auth.checkAdminRights(req.user)) {
             res.status(403).json({status: 403, error: 'Forbidden'});
             return;
         }
-        if(!common.checkSeriesBody(req.body) || !req.files.ava) {
+        if(!common.checkepisodBody(req.body) || !req.files.ava) {
             res.status(400).json({status: 400, error: 'Bad request'});
             return;
         }
@@ -332,10 +335,10 @@ router.post('/serials/:sId/serieses',
                 res.status(400).json({status: 400, error: 'Bad request'});
                 return;
             }   
-            const newSeries = {
+            const newEpisod = {
                 title: req.body.title,
 				seasonNumber: req.body.seasonNumber,
-				seriesNumber: req.body.seriesNumber,
+				episodNumber: req.body.episodNumber,
 				mark: req.body.mark,
 				description: req.body.description, 
 				avaUrl: img.url,	
@@ -343,33 +346,33 @@ router.post('/serials/:sId/serieses',
 				serialId: req.params.sId	
             };
 
-            Serieses.create(newSeries)
-                .then(newSeries => Promise.all([Serials.addSeries(newSeries), newSeries]))  // save id of added series to serial
+            Episods.create(newEpisod)
+                .then(newEpisod => Promise.all([Serials.addEpisod(newEpisod), newEpisod]))  // save id of added episod to serial
                 .then(result => res.status(201).json(result[1]))                
                 .catch(() => res.status(400).json({status: 400, error: 'Bad request'}));
         })
     }
 );
 
-router.put('/serieses/:id', 
+router.put('/episods/:id', 
     passport.authenticate('basic', { session: false, failureRedirect: '/api/v1/unauthorized'}),
     (req, res) => {
         if(!Auth.checkAdminRights(req.user)) {
             res.status(403).json({status: 403, error: 'Forbidden'});
             return;
         }        
-        Serieses.patch(req.body, req.params.id)
-            .then(series => {
-                if(!series) 
-                    return Promise.reject({status: 404, error: `No series with id ${req.params.id}`});  
-                res.json(series);
+        Episods.patch(req.body, req.params.id)
+            .then(episod => {
+                if(!episod) 
+                    return Promise.reject({status: 404, error: `No episod with id ${req.params.id}`});  
+                res.json(episod);
             })
             .catch(err => err.status ? res.status(err.status).json(err) 
                                      : res.status(404).json(err));                     
     }
 );
 
-router.patch('/serieses/:id', 
+router.patch('/episods/:id', 
     passport.authenticate('basic', { session: false, failureRedirect: '/api/v1/unauthorized'}),
     (req, res) => {
         if(!Auth.checkAdminRights(req.user)) {
@@ -385,25 +388,25 @@ router.patch('/serieses/:id',
                 res.status(400).json({status: 400, error: 'Bad request'});
                 return;
             }
-            Serieses.updAvatar(req.params.id, img.url)
-                .then(series => res.json(series)) 
+            Episods.updAvatar(req.params.id, img.url)
+                .then(episod => res.json(episod)) 
                 .catch(() => res.status(400).json({status: 400, error: 'Bad request'}));
         })         
     }
 );
 
-router.delete('/serieses/:id', 
+router.delete('/episods/:id', 
     passport.authenticate('basic', { session: false, failureRedirect: '/api/v1/unauthorized'}),
     (req, res) => {
         if(!Auth.checkAdminRights(req.user)) {
             res.status(403).json({status: 403, error: 'Forbidden'});
             return;
         }
-        Serieses.delete(req.params.id)
-            .then(series => {
-                if(!series)
-                    return Promise.reject({status: 404, error: `No series with id ${req.params.id}`});                  
-                return Promise.all([Serials.removeSeries(series.serialId.toString(), series.id), series])
+        Episods.delete(req.params.id)
+            .then(episod => {
+                if(!episod)
+                    return Promise.reject({status: 404, error: `No episod with id ${req.params.id}`});                  
+                return Promise.all([Serials.removeEpisod(episod.serialId.toString(), episod.id), episod])
             })
             .then(result => res.json(result[1]))
             .catch(err => err.status ? res.status(err.status).json(err) 
@@ -412,7 +415,6 @@ router.delete('/serieses/:id',
 );
 
 router.get("/unauthorized", (req, res) => {
-    console.log("unauthorized!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     res.status(401).json({status: 401, error: "Not authorized"});
 });
 

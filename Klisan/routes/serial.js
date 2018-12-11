@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const busboy  = require('busboy-body-parser');
 
 const Serial = require("../models/serial.js");
-const Series = require("../models/series.js");
+const episod = require("../models/episod.js");
 const User = require("../models/user.js");
 const Auth = require("../models/auth.js");
 
@@ -48,7 +48,7 @@ router.post('/addSerial', (req, res) => {
 				seasonsNum: req.body.seasonsNum,
 				mark: req.body.mark,
 				description: req.body.description, 
-				avaUrl: result.url,	
+				avaUrl: result.secure_url,	
 			};
 			Serial.create(newSerial)
 				.then((x) => 
@@ -62,7 +62,7 @@ router.get('/deleteSerial', function (req, res) {
 	if(!Auth.checkAdminRights(req.user)) 
 		res.status(403).render('error', {code: 403, error: "Forbidden"});
 	else {
-		Series.deleteFromSerial(req.query.sId)
+		episod.deleteFromSerial(req.query.sId)
 			.then(() => Serial.delete(req.query.sId)		
 			.then(()  => res.redirect('serials'))
 			.catch(() => res.status(500).render('error', {code: 500, error: "Unable to delete"})));
@@ -102,15 +102,15 @@ router.post('/updateSerial', function (req, res) {
 router.get('/serial/:id', function (req, res) {
 	Serial.getById(req.params.id)
 		.then(serial => {	
-			let serieses = serial.serieses;						
+			let episods = serial.episods;						
 			if("search" in req.query) {
-				serieses = common.search(req.query.search, serieses);
-				if(serieses.length == 0) { // not found						
+				episods = common.search(req.query.search, episods);
+				if(episods.length == 0) { // not found						
 					res.render('searchNF');
 					return; 
 				}
 			}							
-			res.render('serieses', {series: serieses, userRights: req.user, adminRights: Auth.checkAdminRights(req.user),
+			res.render('episods', {episod: episods, userRights: req.user, adminRights: Auth.checkAdminRights(req.user),
 				sId: serial.id, watch: true});
 
 		}) 

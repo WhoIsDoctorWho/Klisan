@@ -1,6 +1,6 @@
 $(function () {
     $("#delEp").click(function () {
-        const href = "/deleteSeries?id=" + document.getElementById("episod").value;
+        const href = "/deleteepisod?id=" + document.getElementById("episod").value;
         document.getElementById("accept").setAttribute("href", href);
     });
 });
@@ -16,3 +16,7 @@ $(function () {
 function confirm() {
     $("#myModal2").modal('show');
 };
+
+function goBack() {
+    window.history.back();
+}

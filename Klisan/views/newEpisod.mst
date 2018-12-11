@@ -7,16 +7,21 @@
 
 <body class="background"> 
     {{> header }}
+
     {{#adminRights}}
     <div class="container center-block creating ">  
-    <form action="/addSerial" method="POST" enctype="multipart/form-data" role="form">
+    <form action="/addEpisod" method="POST" enctype="multipart/form-data" role="form">
         <div class="form-group">
             <label for="title">Title:</label>
             <input name="title" type="text" class="form-control" id="title" placeholder="Title of episod" maxlength="25" required>            
         </div>
         <div class="form-group">
-            <label for="nseason">Number of seasons:</label>
-            <input name="seasonsNum" type="number" class="form-control" id="nseason" placeholder="Number of seasons" min="1" max="99" required>            
+            <label for="nseason">Number of season:</label>
+            <input name="seasonNumber" type="number" class="form-control" id="nseason" placeholder="Number of season" min="1" max="99" required>            
+        </div>
+        <div class="form-group">
+            <label for="nepisod">Number of episod:</label>
+            <input name="episodNumber" type="number" class="form-control" id="nepisod" placeholder="Number of episod" min="1" max="99" required>            
         </div>
         <div class="form-group">
             <label for="mark">Mark:</label>
@@ -30,7 +35,11 @@
             <label for="ava">Avatar:</label>
             <input type="file" name="ava" class="form-control-file" id="ava" required>
         </div>
-        <input type="hidden" name="sId" value="{{_id}}">
+        <div class="form-group">
+            <label for="video">Link to the video:</label>
+            <input name="videoLink" type="text" class="form-control" id="video" placeholder="Link to the video" maxlength="100" required>            
+        </div>
+        <input type="hidden" name="sId" value="{{sId}}">
         <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="goBack()">Cancel</button>
         <button type="submit" class="btn btn-info btn-lg btn-block">Add</button>
     </form>

@@ -14,15 +14,15 @@
     <form action="/auth/register" method="POST" enctype="multipart/form-data" role="form">
         <div class="form-group">
             <label for="login">Login:</label>
-            <input name="login" type="text" class="form-control" id="login" placeholder="Klisan" onblur="checkLogin()" required>            
+            <input name="login" type="text" class="form-control" id="login" placeholder="Klisan" onblur="checkLogin()" maxlength="25" required>            
         </div>
         <div class="form-group">
             <label for="fname">Full name:</label>
-            <input name="fullname" type="text" class="form-control" id="fname" placeholder="Protas Andrey" required>            
+            <input name="fullname" type="text" class="form-control" id="fname" placeholder="Protas Andrey" maxlength="25" required>            
         </div>
         <div class="form-group">
             <label for="pass1">Password:</label>
-            <input name="pass1" type="password" class="form-control" id="pass1" placeholder="Password" minlength="6"
+            <input name="pass1" type="password" class="form-control" id="pass1" placeholder="Password" minlength="6" 
                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" onkeyup='check()' oninvalid="passFormat()" required>            
         </div>
         <div class="form-group">
@@ -31,7 +31,7 @@
                 minlength="6" onkeyup='check()' required>            
         </div>
         <button type="submit" id="reg" class="btn btn-info btn-lg btn-block" disabled> Register </button>
-        <p class="text-secondary" id="register"></p>
+        <h6 class="text-danger small" id="register"></h6>
     </form>
     </div>
     {{/userRights}}

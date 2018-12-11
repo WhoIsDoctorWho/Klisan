@@ -10,21 +10,21 @@
     {{#userRights}}
     <div class="container-fluid">
 	<br>
-    {{#series}}
+    {{#episod}}
 	<h1 class= "text-center pageName">{{ title }}</h1>
 	<div class="text-center">
         <iframe width="1280" height="720" src="https://www.youtube.com/embed/{{videoLink}}"  allowfullscreen></iframe>        
-        <div class="series">
+        <div class="episod">
             <article>                
                 <p class="description">{{description}}</p>                 
             </article>
         </div>           
 	</div>
-    {{/series}}
+    {{/episod}}
     <div class="text-center">
     <form>      
         <input type="hidden" value="{{eId}}" id="episod">
-        <a href="/updateSeries?id={{eId}}" class="btn btn-outline-info btn-lg mr-5 active" role="button" aria-pressed="true">Update episod</a>
+        <a href="/updateEpisod?id={{eId}}" class="btn btn-outline-info btn-lg mr-5 active" role="button" aria-pressed="true">Update episod</a>
         <a href="#myModal2" onclick="confirm()" id="delEp" class="btn btn-outline-danger btn-lg mr-5 active" 
             role="button" aria-pressed="true">Remove episod</a>                             
     </form>

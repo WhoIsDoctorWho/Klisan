@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 module.exports = {
     ServerPort: process.env["PORT"] || 3000,
 
@@ -9,5 +11,6 @@ module.exports = {
         api_secret: "1IBpUj_4xjMPewvu60Xha2UkGak"
     },
     ServerSalt: "hHMm_baZinga!ahKtun&&^bahKaban#!@ga_",
-    Secret: "baZiNNga^ahT_ung"
+    Secret: "baZiNNga^ahT_ung",
+    bot_token: provess.env['TELEGRAM_BOT_TOKEN'],
 }

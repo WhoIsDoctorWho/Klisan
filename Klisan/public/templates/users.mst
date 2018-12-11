@@ -1,0 +1,14 @@
+{{#items}}
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 episods">
+            <div class="row"><img src="{{avaUrl}}" width="320" height="280" class="mx-auto rounded">            
+                <div class="col-12 episod">
+                    <a href="/users/{{ _id }}" class="text-info photoCaption"> {{ login }} </a> 
+                </div>
+            </div>
+        </div>        
+{{/items}}
+{{^items}}
+<div>
+    <h1 class="ml-5 pageName">Users not found</h1>
+</div>
+{{/items}}

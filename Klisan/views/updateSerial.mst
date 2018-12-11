@@ -13,28 +13,29 @@
         <form action="/updateSerial" method="POST" enctype="multipart/form-data" role="form">
             <div class="form-group">
                 <label for="title">Title:</label>
-                <input name="title" type="text" class="form-control" id="title" value="{{title}}" required>            
+                <input name="title" type="text" class="form-control" id="title" value="{{title}}" maxlength="25" required>            
             </div>
             <div class="form-group">
                 <label for="nseason">Number of seasons:</label>
-                <input name="seasonsNum" type="number" class="form-control" id="nseason" value="{{seasonsNum}}" required>            
+                <input name="seasonsNum" type="number" class="form-control" id="nseason" value="{{seasonsNum}}" min="1" max="99" required>            
             </div>
             <div class="form-group">
                 <label for="mark">Mark:</label>
-                <input name="mark" type="number" class="form-control" id="mark" value="{{mark}}" required>            
+                <input name="mark" type="number" class="form-control" id="mark" value="{{mark}}" min="1" max="10" required>            
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
-                <textarea rows="10" cols = "30" name="description" required>{{description}}</textarea>
+                <textarea rows="10" cols = "30" name="description" maxlength="256" required>{{description}}</textarea>
             </div>
-            <input type="hidden" name="sId" value="{{_id}}">
-            <button type="submit" class="btn btn-info btn-lg btn-block">Update</button>
+            <input type="hidden" name="sId" value="{{_id}}">            
+            <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="goBack()">Cancel</button>
+            <button type="submit" class="btn btn-info btn-lg btn-block">Update</button>            
         </form>
         </div>  
     {{/serial}}    
     {{/adminRights}}
     {{> authAdm }}   
-
+    <script src="../javascripts/confirm.js"></script>
     {{> footer }}
 </body>
 </html>

@@ -16,18 +16,13 @@ router.use(busboy({limit: '5mb'}));
 
 
 router.get('/users', (req, res) => {
-		User.getAll()		
-			.then(users => {
-				res.render('users', {users: users, userRights: req.user, adminRights: Auth.checkAdminRights(req.user)})
-			})
-	   		.catch(() => res.status(404).render('error', {code: 404, error: "Not found"}));
-	}
-);
+	res.render('users', {userRights: req.user, adminRights: Auth.checkAdminRights(req.user)})
+});
 
 router.get('/promote', (req, res) => {
 	User.promote(req.query.id)			
 		.then(() => {
-			res.redirect(`/users/${req.body.id}`);
+			res.redirect(`/users/${req.query.id}`);
 		})
 	   	.catch(() => res.status(404).render('error'));
 	}
@@ -39,35 +34,13 @@ router.get('/users/:id', (req, res) => {
 			return Promise.all(
 				[user, Serial.getArr(user.watchList)]);
 		})
-		.then(([user, serieses]) => {
-			res.render('user', {user: user, series: serieses, userRights: req.user});
+		.then(([user, episods]) => {
+			const me = user.id == req.user._id;
+			res.render('user', {user: user, episod: episods, userRights: req.user, adminRights: Auth.checkAdminRights(req.user), me: me});
 		})
 	   	.catch(() => res.status(404).render('error'));
 	}
 );
-
-
-
-
-router.post('/addToWatchList', (req, res) => { //@todo 
-	const userId = req.body.userId;
-	const sId = req.body.sId;
-	User.addToWL(userId, sId)
-		.then(() => res.redirect(`/users/${userId}`))
-		.catch(() => res.status(404).render('error'));
-});
-
-router.get('/checkWatchList', (req, res) => {
-	const userId = req.query.userId;	
-	User.getWL(userId)
-		.then(user => {
-			return Serial.getArr(user.watchList);
-		})
-		.then(serials => {				
-				res.render('serials', {serials: serials, addSerial: "fillWatchList"});
-		})
-		.catch(() => res.status(404).render('error'));
-});
 
 
 
